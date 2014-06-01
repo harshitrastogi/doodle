@@ -17,6 +17,8 @@ public class App extends Application {
 	private static Context appContext;
 	public static final int PORT = 8080;
 
+	public static byte[] image;
+
 	@Override
 	public void onCreate() {
 		appContext = this;

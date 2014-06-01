@@ -19,7 +19,6 @@ import android.view.MenuItem;
 
 import com.superscript.doodle.callbacks.ServerCallbacks;
 import com.superscript.doodle.fragments.TextMessagesFragment;
-import com.superscript.doodle.services.DoodleClient;
 import com.superscript.doodle.services.DoodleServer;
 
 import de.tavendo.autobahn.WebSocketConnection;
@@ -28,7 +27,6 @@ public class MainActivity extends Activity implements ServerCallbacks, Observer 
 
 	private static MainActivity mainActivity;
 	private DoodleServer serverService;
-	private DoodleClient clientService;
 	private WebSocketServer server;
 	private WebSocketConnection client;
 	private TextMessagesFragment messenger;
@@ -149,6 +147,13 @@ public class MainActivity extends Activity implements ServerCallbacks, Observer 
 
 	public DoodleServer getServiceObject() {
 		return serverService;
+	}
+
+	@Override
+	public void imageReceived(byte[] imageArray) {
+		App.image = imageArray;
+		DoodleFragmentManager.getInstance()
+				.setNextFragment(new ImageFragment());
 	}
 
 }

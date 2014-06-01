@@ -14,6 +14,8 @@ public interface ServerCallbacks {
 
 	public void messageReceived(WebSocket connection, String message);
 
+	public void imageReceived(byte[] imageArray);
+
 	public void deviceDisconnected(WebSocket connection);
 
 }

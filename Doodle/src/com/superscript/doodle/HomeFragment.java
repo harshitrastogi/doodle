@@ -9,6 +9,7 @@ import com.superscript.doodle.fragments.TextMessagesFragment;
 import de.tavendo.autobahn.WebSocketConnection;
 import de.tavendo.autobahn.WebSocketException;
 import de.tavendo.autobahn.WebSocketHandler;
+import de.tavendo.autobahn.WebSocketOptions;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -52,7 +53,10 @@ public class HomeFragment extends Fragment implements OnClickListener {
 	public void onClick(View v) {
 		connectionUrl = "ws://" + input.getText().toString();
 		try {
-			client.connect(connectionUrl, new MyWebSocketHandler());
+			WebSocketOptions options = new WebSocketOptions();
+			options.setMaxFramePayloadSize(5000 * 1024);
+			options.setMaxMessagePayloadSize(5000 * 1024);
+			client.connect(connectionUrl, new MyWebSocketHandler(), options);
 		} catch (WebSocketException e) {
 			App.makeToast("Couldn't connect. Check ip and try again", false);
 			client.disconnect();
@@ -103,11 +107,17 @@ public class HomeFragment extends Fragment implements OnClickListener {
 
 		@Override
 		public void onRawTextMessage(byte[] payload) {
+			if (listener != null) {
+				listener.imageReceived(payload);
+			}
 			super.onRawTextMessage(payload);
 		}
 
 		@Override
 		public void onBinaryMessage(byte[] payload) {
+			if (listener != null) {
+				listener.imageReceived(payload);
+			}
 			super.onBinaryMessage(payload);
 		}
 

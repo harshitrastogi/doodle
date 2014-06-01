@@ -1,8 +1,13 @@
 package com.superscript.doodle.fragments;
 
+import java.io.ByteArrayOutputStream;
+
 import org.java_websocket.WebSocket;
 
 import android.app.Fragment;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Layout;
 import android.text.method.ScrollingMovementMethod;
@@ -23,7 +28,7 @@ public class TextMessagesFragment extends Fragment implements OnClickListener {
 
 	private TextView msgReceived, ipAddress;
 	private EditText newMsg;
-	private Button sendButton;
+	private Button sendButton, sendImage;
 	private WebSocket serverConnection;
 	private WebSocketConnection clientConnection;
 
@@ -37,6 +42,8 @@ public class TextMessagesFragment extends Fragment implements OnClickListener {
 		msgReceived.setMovementMethod(new ScrollingMovementMethod());
 		newMsg = (EditText) v.findViewById(R.id.et_msg);
 		sendButton = (Button) v.findViewById(R.id.btn_send);
+		sendImage = (Button) v.findViewById(R.id.btn_sendImage);
+		sendImage.setOnClickListener(this);
 		sendButton.setOnClickListener(this);
 		if (serverConnection == null && clientConnection == null) {
 			sendButton.setEnabled(false);
@@ -118,10 +125,30 @@ public class TextMessagesFragment extends Fragment implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 
-		if (clientConnection != null) {
-			clientConnection.sendTextMessage(newMsg.getText().toString());
-		} else if (serverConnection != null) {
-			serverConnection.send(newMsg.getText().toString());
+		switch (v.getId()) {
+		case R.id.btn_send:
+			if (clientConnection != null) {
+				clientConnection.sendTextMessage(newMsg.getText().toString());
+			} else if (serverConnection != null) {
+				serverConnection.send(newMsg.getText().toString());
+			}
+
+			break;
+
+		case R.id.btn_sendImage:
+			Drawable d = getResources().getDrawable(R.drawable.lol);
+			Bitmap bitmap = ((BitmapDrawable) d).getBitmap();
+			ByteArrayOutputStream stream = new ByteArrayOutputStream();
+			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+			byte[] bitmapdata = stream.toByteArray();
+
+			if (clientConnection != null) {
+				clientConnection.sendRawTextMessage(bitmapdata);
+			} else if (serverConnection != null) {
+				serverConnection.send(bitmapdata);
+			}
+
+			break;
 		}
 
 	}

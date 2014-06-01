@@ -1,6 +1,7 @@
 package com.superscript.doodle.services;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
@@ -43,6 +44,14 @@ public class DoodleServer extends Service {
 				if (listener != null) {
 					listener.messageReceived(conn, msg);
 				}
+			}
+			
+			@Override
+			public void onMessage(WebSocket conn, ByteBuffer message) {
+				if (listener != null){
+					listener.imageReceived(message.array());
+				}
+				super.onMessage(conn, message);
 			}
 
 			@Override
