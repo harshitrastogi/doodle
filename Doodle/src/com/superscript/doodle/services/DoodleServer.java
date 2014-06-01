@@ -1,4 +1,4 @@
-package com.superscipt.doodle.services;
+package com.superscript.doodle.services;
 
 import java.io.IOException;
 

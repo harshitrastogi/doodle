@@ -1,7 +1,7 @@
 package com.superscript.doodle;
 
-import com.superscipt.doodle.services.DoodleServer;
 import com.superscript.doodle.callbacks.ServerCallbacks;
+import com.superscript.doodle.services.DoodleServer;
 
 import android.app.Activity;
 import android.app.Fragment;
