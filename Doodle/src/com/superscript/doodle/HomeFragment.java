@@ -50,11 +50,12 @@ public class HomeFragment extends Fragment implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		connectionUrl = connectionUrl + input.getText().toString();
+		connectionUrl = "ws://" + input.getText().toString();
 		try {
 			client.connect(connectionUrl, new MyWebSocketHandler());
 		} catch (WebSocketException e) {
 			App.makeToast("Couldn't connect. Check ip and try again", false);
+			client.disconnect();
 			e.printStackTrace();
 		}
 

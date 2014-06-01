@@ -106,9 +106,8 @@ public class TextMessagesFragment extends Fragment implements OnClickListener {
 	}
 
 	@Override
-	public void onPause() {
-		super.onPause();
-
+	public void onDestroyView() {
+		super.onDestroyView();
 		if (clientConnection != null) {
 			clientConnection.disconnect();
 		} else if (serverConnection != null) {
