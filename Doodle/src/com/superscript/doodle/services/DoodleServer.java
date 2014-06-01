@@ -33,11 +33,18 @@ public class DoodleServer extends Service {
 			@Override
 			public void onOpen(WebSocket conn, ClientHandshake arg1) {
 				App.makeToast("Device connected", true);
+
+				if (listener != null) {
+					listener.deviceConnected(conn);
+				}
 			}
 
 			@Override
 			public void onMessage(WebSocket conn, String msg) {
 				App.makeToast(msg, true);
+				if (listener != null) {
+					listener.messageReceived(conn, msg);
+				}
 			}
 
 			@Override
@@ -49,6 +56,9 @@ public class DoodleServer extends Service {
 			public void onClose(WebSocket conn, int arg1, String arg2,
 					boolean arg3) {
 				App.makeToast(arg2, true);
+				if (listener != null) {
+					listener.deviceDisconnected(conn);
+				}
 			}
 		};
 
@@ -57,7 +67,7 @@ public class DoodleServer extends Service {
 		listener = MainActivity.getMainActivity().getListener();
 
 		if (listener != null) {
-			listener.doodleServerStarted();
+			listener.doodleServerStarted(this, server);
 		}
 		return START_STICKY;
 	}

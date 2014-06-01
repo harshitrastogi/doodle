@@ -1,13 +1,19 @@
 package com.superscript.doodle.callbacks;
 
-import android.content.Context;
+import org.java_websocket.WebSocket;
+import org.java_websocket.server.WebSocketServer;
+
+import com.superscript.doodle.services.DoodleServer;
 
 public interface ServerCallbacks {
 
-	public void doodleServiceStarted(Context serviceContext);
+	public void doodleServerStarted(DoodleServer serviceContext,
+			WebSocketServer server);
 
-	public void doodleServerStarted();
+	public void deviceConnected(WebSocket connection);
 
-	public void deviceConnected();
+	public void messageReceived(WebSocket connection, String message);
+
+	public void deviceDisconnected(WebSocket connection);
 
 }
