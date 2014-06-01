@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="14"
+        android:minSdkVersion="11"
         android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -24,6 +24,9 @@
         android:theme="@style/AppTheme" >
         <service
             android:name="com.superscript.doodle.services.DoodleServer"
+            android:enabled="true" />
+        <service
+            android:name="com.superscript.doodle.services.DoodleClient"
             android:enabled="true" />
 
         <activity

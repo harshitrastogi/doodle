@@ -15,7 +15,7 @@ import android.widget.Toast;
 public class App extends Application {
 
 	private static Context appContext;
-	private static final int PORT = 8080;
+	public static final int PORT = 8080;
 
 	@Override
 	public void onCreate() {
